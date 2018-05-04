@@ -25,9 +25,7 @@ define("scripts/main.js", function(exports, require, module) {
 
   function preloadImages(callback) {
     for (var i = 0; i < imageList.length; i++) {
-      var img = new Image();
-      img.src = imageList[i];
-      img.onload = callback;
+      layer.preloadImage(imageList[i], callback);
     }
     return imageList.length;
   }

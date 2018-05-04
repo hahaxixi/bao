@@ -19,8 +19,31 @@ define("scripts/layer.js", function(exports, require, module) {
     "mask": zi()
   };
 
+
+  var imageCache = {};
+
+  exports.preloadImage = function(src, callback) {
+    var img = new Image(), canvas, ctx, error;
+    //img.crossOrigin = "anonymous";
+    img.src = src;
+    img.onload = function() {
+      canvas = document.createElement('canvas');
+      canvas.height = img.naturalHeight;
+      canvas.width = img.naturalWidth;
+      ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      try {
+        imageCache[src] = canvas.toDataURL();
+      } catch (e) {
+        error = e;
+      }
+      callback(error);
+    };
+  };
+
   exports.createImage = function(layer, src, x, y, w, h) {
     layer = this.getLayer(layer);
+    src = imageCache[src] || src;
     return layer.image(src, x, y, w, h);
   };
 

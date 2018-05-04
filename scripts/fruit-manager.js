@@ -1,6 +1,7 @@
 define("scripts/fruit-manager.js", function(exports, require, module) {
   "use strict";
 
+  var layer = require("scripts/layer");
   var fruit = require("scripts/fruit");
   var collision = require("scripts/collision");
   var tools = require("scripts/tools");
@@ -115,9 +116,8 @@ define("scripts/fruit-manager.js", function(exports, require, module) {
 
 
   function preloadImage(name, callback) {
-    var img = new Image();
-    img.src = "images/fruit/" + name + ".png";
-    img.onload = callback;
+    var src = "images/fruit/" + name + ".png";
+    layer.preloadImage(src, callback);
     return 1;
   }
 
