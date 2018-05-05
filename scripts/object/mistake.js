@@ -31,12 +31,12 @@ define("scripts/object/mistake.js", function(exports, require, module) {
 
   ClassMistake.prototype.check = function() {
     this.checked = true;
-    this.image.attr("src", getImageSrc(this.size, this.checked));
+    layer.replaceImage(this.image, getImageSrc(this.size, this.checked));
   };
 
   ClassMistake.prototype.uncheck = function() {
     this.checked = false;
-    this.image.attr("src", getImageSrc(this.size, this.checked));
+    layer.replaceImage(this.image, getImageSrc(this.size, this.checked));
   };
 
   var mistakes = [];

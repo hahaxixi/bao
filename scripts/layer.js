@@ -41,6 +41,11 @@ define("scripts/layer.js", function(exports, require, module) {
     };
   };
 
+  exports.replaceImage = function(image, src) {
+    src = imageCache[src] || src;
+    image.attr("src", src);
+  };
+
   exports.createImage = function(layer, src, x, y, w, h) {
     layer = this.getLayer(layer);
     src = imageCache[src] || src;
