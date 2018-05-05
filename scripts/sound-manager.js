@@ -22,7 +22,7 @@ define("scripts/sound-manager.js", function(exports, require, module) {
       arr = [];
       count = soundArrays[name];
       for (var i = 0; i < count; i++) {
-        arr.push(sound.create("sounds/" + name + (i + 1)));
+        arr.push(sound.create("sounds/" + name + (i + 1) + ".mp3"));
       }
       soundArrays[name] = arr;
     }
@@ -35,7 +35,7 @@ define("scripts/sound-manager.js", function(exports, require, module) {
   exports.play = function(name) {
     var arr = soundArrays[name];
     var len = arr.length;
-    arr[len == 1 ? 0 : random(len)].play();
+    return arr[len == 1 ? 0 : random(len)].play();
   };
 
 });
