@@ -207,7 +207,7 @@ define("scripts/game.js", function(exports, require, module) {
 
     } else {
       // 35%
-      //num = 2;
+      num += random(2);
     }
 
     throwFruit(group, num);
