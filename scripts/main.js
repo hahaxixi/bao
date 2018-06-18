@@ -31,10 +31,13 @@ define("scripts/main.js", function(exports, require, module) {
   }
 
   function preload(text, callback) {
+    var info = "正在加载 %d/%d";
+    info += "\n请打开声音...";
+
     var num = 0, count = 0;
     var onload = function() {
       num++;
-      text.attr("text", "正在加载 " + num + "/" + count);
+      text.attr("text", info.replace("%d", num).replace("%d", count));
       if (num >= count) {
         callback();
       }

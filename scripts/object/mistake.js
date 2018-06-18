@@ -57,7 +57,7 @@ define("scripts/object/mistake.js", function(exports, require, module) {
     mistakes[2].image.attr({x: x, y: y});
 
     var a = [-2, -1, 0, 1, 2];
-    for (var i = 3; i < 30; i++) {
+    for (var i = 3; i < count; i++) {
       x -= width;
       y += a[random(a.length)];
       if (y < 0) y = 0;

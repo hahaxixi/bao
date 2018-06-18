@@ -3,7 +3,8 @@ define("scripts/scene.js", function(exports, require, module) {
 
   var soundManager = require("scripts/sound-manager");
   var fruitManager = require("scripts/fruit-manager");
-  var control = require("scripts/control");
+  var drag = require("scripts/drag");
+  var knife = require("scripts/knife");
   var layout = require("scripts/layout");
   var layer = require("scripts/layer");
   var tools = require("scripts/tools");
@@ -21,14 +22,32 @@ define("scripts/scene.js", function(exports, require, module) {
   var gameOverState;
   var curScene;
 
+  var playButton;
+  function showPlayButton(cb) {
+    if (playButton) {
+      setTimeout(cb, 2000);
+      return;
+    }
+    playButton = document.getElementById("play-button");
+    playButton.style.display = "block";
+    tools.addEvent(playButton, "click", function() {
+      playButton.style.display = "none";
+      cb();
+    });
+  }
+
+  function showNewGame() {
+    newGame.setIcon("winnie", 96, 96, function(){
+      soundManager.play("winnie");
+      switchScene("game-body");
+    });
+    newGame.show();
+  }
+
   var _sceneHomeMenu = {
     enter: function() {
       logo.show();
-      newGame.setIcon("winnie", 96, 96, function(){
-        soundManager.play("winnie");
-        switchScene("game-body");
-      });
-      setTimeout(newGame.show, 2000);
+      showPlayButton(showNewGame);
     },
 
     exit: function() {
@@ -86,6 +105,22 @@ define("scripts/scene.js", function(exports, require, module) {
     }
   }
 
+  function bindDrag() {
+    var dragger = drag.create();
+
+    var ret;
+    dragger.on("returnValue", function(dx, dy, x, y) {
+      if (ret = knife.through(x - layout.x(), y - layout.y()))
+        fruitManager.checkCollision(ret);
+    });
+
+    dragger.on("startDrag", function() {
+      knife.newKnife();
+    });
+
+    dragger.init(document.documentElement);
+  }
+
   var inited = false;
   function init() {
     if (inited) return;
@@ -96,11 +131,9 @@ define("scripts/scene.js", function(exports, require, module) {
     score.set();
     gameOver.set();
 
-    control.bindDrag(function(knife) {
-      fruitManager.checkCollision(knife);
-    });
+    bindDrag();
 
-    control.bindClick(function() {
+    tools.addEvent(document, "click", function() {
       if (gameOverState)
         switchScene("home-menu", 1000);
     });
