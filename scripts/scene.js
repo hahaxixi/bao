@@ -30,7 +30,7 @@ define("scripts/scene.js", function(exports, require, module) {
     }
     playButton = document.getElementById("play-button");
     playButton.style.display = "block";
-    tools.addEvent(playButton, "click", function() {
+    tools.addEvent(playButton, "ontouchend" in window ? "touchend" : "click", function() {
       playButton.style.display = "none";
       cb();
     });
@@ -133,7 +133,7 @@ define("scripts/scene.js", function(exports, require, module) {
 
     bindDrag();
 
-    tools.addEvent(document, "click", function() {
+    tools.addEvent(document, "ontouchend" in window ? "touchend" : "click", function() {
       if (gameOverState)
         switchScene("home-menu", 1000);
     });
